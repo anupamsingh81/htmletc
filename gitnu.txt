@@ -1,1 +1,6 @@
 # Here instead of git add. we use git add -A since many folder also
+
+git add -A && git commit -m "It begins."
+curl -u 'anupamsingh81' https://api.github.com/user/repos -d '{"name":"htmletc"}'
+git remote add origin git@github.com:anupamsingh81/htmletc.git
+git push -u origin master
