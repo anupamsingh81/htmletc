@@ -1,0 +1,401 @@
+2013-02-11 Jeff Blum 
+	* Release: phpaddedit-2.3.1
+	
+	* Update/Fixes: 
+		--- forgot to include the updated includes/cleanit-funtions.php file to correct deprecated ereg functions
+
+		
+2013-01-27 Jeff Blum 
+	* Release: phpaddedit-2.3
+	
+	* Update/Fixes: 
+		--- Fixed small error in includes/ajax_file_upload.inc.php file 
+			(<?php=$_SERVER --> ?php echo $_SERVER
+			If you aren't using the AJAX file upload form field you can ignore this update.
+		--- Added jquery cluetip for the help tips included throughout the UI to replace the 
+			crappy javascript alert box which doesn't support text formatting. 
+		--- Added $addeditdir as a global variable in relevant function in addedit-steps.php to 
+			correct problem where info.gif graphic wasn't showing up. 
+			
+		
+2013-01-26 Jeff Blum (some work done 2011-03-07) 
+	* Release: phpaddedit-2.2
+	
+	* Update/Fixes: 
+		--- attempted to fixed eregi deprecation (might have missed some)
+		--- Changed short tags to long tags: <? to <?php
+		--- Added support for Bad Behavior script (http://www.bad-behavior.ioerror.us/)
+			Unfortunately, since the BB script writes cookies the calling code needs to be 
+			placed before any header output and normal use of phpAddEdit will embed the form 
+			in core HTML. So, to use it, just add a line like the following in your site's main 
+			index or header file: 
+			require_once("addedit/bad-behavior/bad-behavior-generic.php");
+			and obviously change the path to suit your specific phpAddEdit directory
+		--- fixed an addslashes problem with the human verification question (addedit-create-form.php)
+		--- improved akismet functionality (addedit-akismet.php)
+		
+
+2010-03-25 Jeff Blum 
+	* Release: phpaddedit-2.1
+	
+	* Update/Fixes: 
+		--- Main fix is the addition of Akismet support for weeding out spam. Files affected: 
+			addedit-akismet.php (new), addedit-render.php, addedit-error-check.php, addedit-steps.php
+		--- fixed printMessage function that was incorrectly referencing the info2.gif graphic
+		--- changed addedit-getversion.inc.php filename to addedit-getversion.php to be more 
+			consistent with other file naming conventions; files affected: index.php
+		--- modified addedit-getversion.php to include /includes/version.inc.php file regardless
+			of what directory the form is being run from (more path issues - arghh)
+		--- updated includes/style to add a warning style - just bold red font...
+		--- updated includes/admin.css to include a 'working' style as well
+		--- updated includes/javascripts.js file to include a div with class=warning for the 
+			custom error alert box
+		--- Fixed error in addedit-render.php file (typo actually) where security check for editing form
+		--- once again changed the URL setting in javascript code in addedit-form-fields.php this time 
+			to call the addedit-ajax.php file as a complete URI rather than a local file
+		--- once again fixed the final step form calling info to remove extra slashes (addedit-steps.php)
+		--- was debugging cleanit-functions.php script and forgot to uncomment an echo statement
+		
+		
+2010-02-18 Jeff Blum 
+	* Release: phpaddedit-2.0
+	
+	* Update/Fixes: 
+		--- added a second db.php include line in dbconnect.inc.php file to account for 
+			occasional errors (e.g., when running XAMPP)
+		--- improved handling of relative paths 
+			(a) changed the definition of existing variables ($addeditcwd, $thispath) in addedit-render.php 
+			(b) changed from using $addeditcwd to $addeditdir in most files
+			(c) fixed file inclusions in addedit-render to utilize the relative path variable 
+			(d) added code in addedit-render.php to see if we are dealing with a windows system
+				and if so, determine the local addeditdir...
+			(e) updated the addedit-steps.php file so that the finished step took advantage of new
+				$addeditdir variable info (just the directory name)
+		--- changed all the select box form fields (addedit-form-fields.php) to only show the sql 
+			warning message if the debugging (sql or detail) is turned on. Instead, it will create a 
+			default blank option so no error will occur.
+		--- modified addedit-ajax.php, addedit-form-fields.php and addedit-customize.php to allow you 
+			to specify your own select and/or insert sql for selectbox_other and selectbox_multiple_other
+			fields. The default behavior just adds the other value you specify to the relevant field, but
+			if you had a more complex table (e.g., with two or more fields) then you might want to use 
+			this customization feature. You could have done it before with sample code in the addedit-ajax.php
+			file but then you would have to remember to update that file each time you upgrade the script. 
+			Now you can do it in the addedit-customize.php script instead. 
+		--- removed redir() function from addedit-functions.php file as it wasn't being used and 
+			apparently it caused problems when integrating the script into phpNuke. 
+		--- checked to see if function refresh_page exists before declaring it (addedit-functions.php)
+		--- updated addedit-rss.php to convert carriage returns to new lines (<br />) 
+		--- updated addedit-form-fields.php to improve path on include for fckeditor
+		--- updated addedit-form-fields.php to include the addedit-function.php file for instances where
+			you might want to use just the form fields file and functions in your own custom scripting
+		--- updated addedit-ajax.php to check for SQL errors in selection process 
+		--- corrected some errors with descriptions (double display and lack of CSS specification)
+		--- removed .htaccess file - don't think the script actually is needed (e.g., was setting magic 
+			quotes from early development days but don't think they are needed). Will include a sample file 
+			to illustrate things that can be done but o/w will not include in distribution because it 
+			causes 500 internal server errors on lots of shared hosting accounts so if it's not needed, 
+			best to get rid of it. Will have to monitor to see if that is actually true. What is true is 
+			
+
+2009-03-25 Jeff Blum 
+	* Release: phpaddedit-1.4
+	
+	* Update/Fixes: 
+		--- modified .htaccess file to set max upload filesize and max execution time
+		--- modified addedit-functions.php to add extra debug option (files uploading)
+		--- added a custom javascript alert function to replace existing ones (files
+			affected: addedit-steps.php, /includes/style.css, /includes/javascripts.js; 
+			added new image file, /images/alert-js.png) 
+		--- added file_upload_ajax_single option; currently the ajax file upload is only 
+			for multiple files and assumes that they are being uploaded to a separate 
+			table than the main form table. You can just use the regular file upload for 
+			a single file with a field in the main form table, but why not also have a 
+			nice AJAX version? Files affected: addedit-create-form.php, addedit-steps.php, 
+			addedit-form-fields.php
+		--- added two checkboxes beneath the FCKedit textarea form field, one to keep 
+			spaces and one to keep classes since by default the cleanit function strips 
+			both of these. Only are shown if cleanit function is enabled. 
+		--- fixed errors in the datefield form field (addedit-form-fields.php); specifically, 
+			was only showing through Nov (< vs. <=); also added two global variables, 
+			$yearminus and $yearplus, which are set in the addedit-customize.php file
+			to dictate how many years to show. 
+		--- added ability to specify an include file in the email step. Files affected: 
+			addedit-steps.php, addedit-functions.php (send_email and phpmailer functions), 
+			addedit-execute.php, addedit-render.php 
+		--- removed htmlentities function call in addedit-form-fields.php (hidden, textbox fiels)
+			but added a str_replace to replace quotation marks with &quot; html entity
+		--- changed default behavior of selectbox form fields (all 4 of them). Originally 
+			they included a blank option by default at the beginning of all SQL built lists
+			but that is presumptuous so I added a variable called $selectboxblank which you 
+			can set to true in your addedit-customize.php file if you want to include a blank 
+			option o/w it won't be. Files modified: addedit-form-fields.php, addedit-customize.php
+		--- updated install routine to add error checking, specifically to make sure the basic 
+			fields are actually entered and also to display the form again if there is an error 
+			rather than having to use the back button. Files affected: /install/index.php
+		
+
+2008-12-16 Jeff Blum 
+	* Release: phpaddedit-1.3.2
+	
+	* Update/Fixes: 
+		--- closed another potential security flaw involving local file include exploitation
+			in addedit-render.php, index.php and /includes/header.php files
+		--- changed feedburner RSS file to <feedname>-feedburner.xml from <feedname>-fd.xml
+		--- made small fix to trackback printMessage to remove extra margin
+		
+2008-12-12 Jeff Blum 
+	* Release: phpaddedit-1.3.1
+	
+	* Update/Fixes: 
+		--- found a security flaw in the script (thanks to Sujith S.); if someone sets a cookie 
+			with the name "addedit" then they would be able to access the script unless other 
+			security measures are in place (like password-protecting your phpAddEdit directory). 
+			Files affected: index.php, addedit-login.php
+		--- improved addedit-getversion.inc.php to allow for minor version numbers (e.g., 1.3.1)
+			before it only handled full versions (e.g., 1.3) properly
+
+2008-12-08 Jeff Blum 
+	* Release: phpaddedit-1.3
+	
+	* Update/Fixes: 
+		--- added a basic installation routine which allows install with no manual file editing 
+			and also checks to make sure the forms folder is writeable before allowing install 
+			(added /install/ directory and install/index.php file for this)
+		--- added file /includes/dbconnect.inc.php to connect to the DB rather than doing it 
+			separately in multiple places in the script
+		--- added DB_CHARSET constant to the config file (default is UTF8)
+		--- added ability to toggle debug levels from the admin page rather than having to manually 
+			edit the config file
+		--- added a new field type - password (MD5) to handle password fields that you want to encrypt 
+			with MD5 hash;
+			Note that since MD5 can't be decrypted this option will not pre-populate the field when 
+			editing
+		--- added ability to set a password help message (clickable info image) that will show 
+			next to the first description on the fieldset
+		--- Changed login approach (and added files addedit-login.php, includes/login.css for this)
+		--- Changed location of user-created forms; were just being thrown in with the phpAddEdit 
+			files but now putting them in a separate forms folder. Should make it a bit easier for 
+			upgrading purposes...also should simplify form invocation code. Changed quite a few places 
+			in multiple files to accomodate this so I hope I didn't miss something important.
+		--- added options for whether to display rss & trackback success messages on form completion
+		--- made slight change to includes/db.php, renaming wpdb to aedb
+		--- updated includes/admin.css a bit
+		--- made small changes to printMessage function in addedit-functions.php
+		--- switched method of form rendering slightly to include the header and footer files from the 
+			file addedit-render.php instead of calling directly in the <form>.php file
+		--- modified the final step in addedit-steps.php file to simplify the suggested invocation code
+		--- now automatically including includes/style.css - users can feel free to edit that to your 
+			taste, but the old way used it as the default in external css file settings, which works 
+			fine but screws up HTML validation
+		--- was setting my own page title tag for directly called forms, but switched to using the form 
+			title specified in variables
+		--- fixed implode issue with selectbox_multiple and selectbox_multiple_other fields 
+			(addedit-functions.php) - basically if only one item is selected then implode will throw an error
+		--- fixed small problem with index feature and enabled the delete option (though this may not 
+			work for some multi-table forms)
+		--- added some extra SQL injection protections (verify no $_GET variable exists before doing 
+			an eval() command)
+		--- changed default FCKeditor folder name to fckeditor (was FCKeditor) to math the default unzip case
+		--- changed the setting of a style width for the form to be conditional on whether one was 
+			actually entered; fixed small glitch (addedit-steps.php) where if a width had been set but 
+			then was set to blank it wouldn't update - there are probably other fields (most, all?) like 
+			this so may be a future issue...
+		--- added "bottom" option for displaying description texts
+		--- added function slug() to addedit-functions.php to create a slug name (remove special chars, 
+			spaces); also updated files addedit-execute-custom.php and addedit-ajax.php to allow for 
+			wordpress demo (post name in wp_posts table and adding a new term to wp_terms in the selectbox 
+			other field)
+
+
+2008-10-15 Jeff Blum 
+	* Release: phpaddedit-1.2
+	
+	* Update/Fixes: 
+		--- made some improvements while traveling but didn't sync my 2 pc's properly so this version is 
+			supposed to be the latest with the following changes but if you notice any issues please let me know
+		--- fixed small glitch in rendering the human verification question - if size was already set by the last 
+			element (e.g. for a FCKedit field with a large size) then that will be used for the verification text 
+			box size which we don't want. Instead just default the call to a size of "3"
+		--- added a date form field (files affected: addedit-form-fields.php, addedit-create-form.php, 
+			addedit-steps.php, addedit-render.php)
+		--- improved handling of annoying issues like relative paths for images, etc. when a user has the freedom 
+			to install in whatever directory he/she chooses; basically...
+			(a) added new variable ($addeditdir) in addedit-render.php and addedit-steps.php 
+			(b) changed the definition of existing variables ($addeditcwd, $thispath) in addedit-render.php 
+			(c) changed from using $addeditcwd to $addeditdir in most files
+			(d) fixed file inclusions in addedit-render to utilize the relative path variable 
+		--- updated a few more instances of get_variable and get_variables function calls in the generate_sql 
+			function (addedit-functions.php) where I needed to include a blank space (" ") - had done this in 
+			an earlier version but it seems I missed a few instances...
+		--- fixed inclusion of user-specified css files - hadn't been working properly (addedit-render.php)
+		--- improved the cookie security check in addedit-render.php 
+		--- added .pot and .xls extensions as default alloable upload files in includes/ajax_file_upload.inc.php 
+		--- removed htmlentities function call in addedit-form-fields.php 
+		--- added textbox_noedit to case selction in addedit-steps (hadn't noticed it wasn't included in earlier 
+			versions) 
+		--- updated to latest FCKeditor version (2.6.3)
+		--- added current year variable to copyright notice on the default email template
+		--- modified error checking in addedit-form-fields.php to only show my error text not the system error msg
+		--- fixed the AJAX file upload preview feature so that if you click the preview image it will open in a new window
+		--- fixed hidden, textbox and textbox_noedit fields to convert default values to htmlentities for case where 
+			there may be quotation marks - maybe need to do this for other fields as well? 
+		--- updated ajaxAddOther (addedit-form-fields.php, addedit-ajax.php) to set encoding if appropriate
+
+
+2008-1-1 Jeff Blum 
+	* Release: phpaddedit-1.1
+	
+	* Update/Fixes: 
+		--- added option to include a human verification question to prevent spam bots from using the form
+		--- replaced older mysql_* type database access commands with $db class connections instead. The old connections
+			could cause problems working with existing connections used in other parts of a site - don't want that...
+			files affected: addedit-execute.php, addedit-form-fields.php, addedit-render.php
+			NOTE: there are instances of using mysql_insert_id() statement - not sure if this will cause problems 
+			and I should replace it or not, haven't done so this time though...
+		--- PHP 5.x support - array_merge function changed in PHP 5.x so modified instances of it in script
+		--- Added some validation code in the selectbox fields (addedit-form-fields.php) to print a user-friendly
+			error message if someone sets up the selectbox populate with fields incorrectly...
+		--- updated sql that retrieves information for forms that are editing information...hadn't enclosed the 
+			primary key value in quotes (had been assuming primarykey would be an integer field) but for text-based 
+			primary keys this is necessary...
+			
+			related: added use of mysql_real_escape_string() to sql for primarykey WHERE criteria to add a bit more 
+			security against sql injection...
+		--- added variable $pre_submit to addedit-create-form.php file right before submit button. Can be specified in 
+			the addedit-customize.php file to add something...
+		--- changed addedit-render.php file to more accurately determine whether the form is being called directly 
+			or is embedded in a page; if the former include html head/body tags, if the latter don't
+		--- changed selectbox_multiple fields in addedit-form-fields.php file to explode default value string to an array 
+			so the default selections will be properly selected.
+		--- added form onsubmit action option in form setup (2) to allow the specification of a onsubmit="" action for 
+			the form submission; prior versions allowed such a javascript event specification for every field except 
+			the actual submit button...
+		--- changed addedit-functions.php: renamed phpmailer function to phpaddeditmailer because it seems logical 
+			that others might be using the open source phpmailer class and naming a function after it, but perhaps
+			with different arguments.
+		--- modified send_email function so that default email body will actually display the values of a posted 
+			variable that is an array (previously just said Array)
+		--- moved email notification sending code to section that only executes if the form was successfully 
+			submitted, o/w if someone submitted a form and got an error an email might have gotten sent 
+		--- added a slash to the password error word "don't" in the addedit-error-check.php file o/w it causes 
+			a javascript error; also changed the pwconfirm variable in same file and in addedit-form-fields.php 
+			file to passwordconfirm to avoid conflicting with pwconfirm variable used elsewhere...
+		--- improved skip field handling - now you can choose to skip a field entirely or override the original 
+			field type and make it a hidden or textbox-noedit field type instead
+		--- modified addedit-error-check.php file to only check email, min and max (characters and values) 
+			if the field has a value. As it was, if you didn't make a field required but did specify a min or 
+			max requirement (chars or value) or an email validity check then if someone didn't fill in that field 
+			they would get an error.
+		--- increased number of sections from 3 to 4 (Step 7)
+		--- fixed AJAX file upload bugs and made improvements: 
+			(1) wasn't properly displaying the contents of the specified files directory
+			(2) remove trailing slash in file_directory if appropriate so user can enter with or without
+			(3) changed the AJAX functionality to update a variable idname (had been static), which will allow for 
+				multiple file upload fields on one form
+			(4) added image preview	to AJAX file upload
+			(5) changed function so that a user can only upload one file - if you want to allow multiple uploads 
+				set a variable called $allow_multiple_uploads = true in your addedit-customize.php file (or you 
+				could manually comment out line 48 in ajax_file_upload.inc.php but when you upgrade to a newer version 
+				of the script you'll lose that change)				
+			(6) improved alignment and CSS - still not perfect, but now mostly classes instead of inline and iframe has 
+				has better height properties
+			(7) in case you may want to specify what directory to upload files to on the form itself, you can set 
+				a variable $allowsetdir = true in your addedit-customize.php file
+		--- changed all $cwd variable instances to $addeditcwd b/c it was conflicting with a $cwd variable 
+			I had set outside of the addedit script. 
+		--- added an id to selectboxes and added a class to options in selectbox_multiple fields that are populated 
+			with an SQL statement BUT right now it is not a variable that can be set. I think very few people will 
+			ever need this feature but for those that do they can change it manually (I am using it to change a 
+			selectbox_multiple field based on the value of a prior selectbox)
+		--- made small change to addedit-form-fields.php; basically, was seeing if a select box was populated by a 
+			SQL statement by seeing if first 6 chars of the population string was "select" but in theory you could have 
+			a non-SQL population string, e.g., select=>select that would get considered SQL so changed to check first 
+			7 characters are "select "
+		--- added code to evaluate the desc1 and desc2 options in case someone wants to include, for example, a 
+			hyperlink with a passed variable drawn from the form; also added code to other eval statements to 
+			add slashes to double quotes to prevent T_STRING errors (addedit-create-form.php)
+		--- made small change to SQL generation function (addedit-functions.php) to handle case where posted value 
+			is a zero since PHP converts it to boolean false automatically
+		--- added ability to add two variables in the addedit-customize.php file -- $files_find_string and 
+			$files_replace_string -- to do a str_replace on the file information that gets added to the DB; this 
+			could be useful if the file directory you have to specify to add a file isn't the same format you will 
+			be using with the script that pulls the information from the database...
+		--- added some debug variables to the config.php file; set these if you want to see different things while 
+			you are working on your form.
+		--- changed error checking to ignore a variable marked to be skipped even if it was setup as a required or other 
+			error checking option...
+		--- added ability to set a selectbox default selected option as a variable (e.g., =$var) that will be eval'd
+		--- added option in config.php file to use cleanit function for FCKeditor fields (default is to use it)
+		--- added setup option to set form encoding and then made some improvements to the cleanup function, notably 
+			to use the htmlentities function (based on the form's encoding - default to ISO-8859-1)
+		--- added check for new version using either fopen or curl; hopefully that is good enough, but if not, I can 
+			use a more complicated getRemoteFile function (ref: http://www.php-mysql-tutorial.com/php-tutorial/php-read-remote-file.php)
+		--- fixed error checking for unique requirement by adding slashes in the query
+		--- AJAX file upload wasn't creating proper sql - need to treat it like a selectbox_multirow...changed 
+			the addedit-functions.php file appropriately.
+		--- stopped replacing & with &amp; for RSS feed generation - seems that valid HTML rules for RSS feeds with 
+			regard to & are not the same, but should investigate this further...
+		--- fixed small error in addedit-create-form.php when getting tablefield variables ($temp=...) needed to 
+			check for $tablefield." " not just $tablefield in case two variables that have common name (e.g., email, 
+			email2)
+		--- changed email function to only email on a new form submission not on editing; should change to allow 
+			options for specifying emails for submission and editing separately (added to TODO)
+		--- added //<![CDATA[ ... //]]> statements to ajaxAddOther JavaScript function (addedit-form-fields.php) 
+			to prevent it from causing validation errors - may need to do the same for some other functions...
+		--- fixed security check using cookie values (addedit-render.php); before was using a stristr function but 
+			that could be thwarted, e.g. if you set it to admin but someone had a cookie value of adminx they would 
+			be validated also...
+		--- added code to set default encoding if not already set in addedit-functions.php
+		--- fixed error with including trackback in addedit-execute.php (had been only checking if trackback on 
+			edit was set to yes regardless of whether we were adding or editing content) 
+		--- added google blog search in automatic pinging for RSS (addedit-rss.php)
+		
+			
+2007-09-01 Jeff Blum 
+
+	* Release: phpaddedit-1.0
+	
+	* Update/Fixes: 
+		--- ability to specify an existing FCKeditor installation...
+		--- changed selectbox_other and selectbox_multirow_other to AJAX implementations; added a size parameter to 
+			the selectbox functions so also had to change the selectbox calls in addedit-steps.php file
+		--- added AJAX file upload option
+		--- added ability to selectively display a field 
+		--- changed multiple row select boxes so that default options appear at top of list
+		--- fixed some minor inaccuracies in how default selected values are set
+		--- fixed some minor XHTML validation errors
+		--- fixed render file so that direct calling of the script includes HTML header and footer
+		--- added working.gif to images directory - use it with AJAX file upload function
+		--- added a couple of classes to style.css file
+		--- added routine to set variables on render - may want to think about this more for security purposes...
+		--- added cleanit function (includes/cleanit-functions.php) to process FCKeditor textareas 
+			ref: http://www.webmastersherpa.com/content/useful-code/cleanup/
+		--- set form width to the form width setting - had forgotten to do that previously
+		--- added/improved login system - before you had to specify the information in the config.php file or use 
+			the default (user: x, pass: x); now the first time you use a new installation it prompts you to set
+			the username and password
+		--- added form specific header and footer file includes. Now, if you want a form to have a header and/or 
+			footer, just edit the files named <formname>-header.inc.php and <formname>-footer.inc.php which are 
+			created automatically when you generate a new form.
+		--- improved the help message for for element types (step 5 of form generation process). 
+		--- changed variable $type to $addedit_type b/c seems like $type might be used often as a table field name
+		--- updated security check so now if no specific value is specified for a cookie it will just check that 
+			the cookie exists; also only checks addcookie when adding and editcookie when editing (had been checking both
+			by mistake)
+		--- fixed problems with addedit-steps.php file; basically if you have two field names, one field_name and the 
+			other field_name2 or field_name_other or something similar you can see that a text search for the first 
+			would be found on the second also, so when doing a call to the get_variable or get_variables function I 
+			now postpend a blank space on the tablefield string to search. Actually, to be cleaner, I should probably 
+			change the function itself...
+		--- added ability to set overall charset for the form (had allowed it to be set for trackback only) and 
+			then set the mysql input and output charset accordingly. Right now I am only pretty much supporting 
+			latin1 (ISO-8859-1) and UTF-8 (UTF8) but should investigate and add more in the future...
+		--- fixed error displaying descriptions set as "right" - was displaying after the fieldset was closed but 
+			should be to right of form element but before fieldset is closed (addedit-create-form.php)
+
+2007-08-01 Jeff Blum 
+
+	* Release: phpaddedit-0.9b
+	
+	* Update/Fixes: First Release
+

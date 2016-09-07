@@ -1,0 +1,55 @@
+<html>
+<head>
+<title> Mitral stenosis algorithm </title>
+ <script src ="script/jquery-3.1.0.min.js"> </script>
+
+
+</head>
+<body>
+
+<script>
+function write_log(s) {
+       $("#log").val($("#log").val() + s)
+      $("#log").scrollTop($("#log")[0].scrollHeight);
+    }
+var $form = $('.form');
+var $sex = $('.sex');
+var $age = $('.age');
+$form.on('submit', function (e) {
+  e.preventDefault();
+  var age1 = $age.val();
+  var sex1 = $sex.val();
+
+write_log('The age is'+ age1 +'The sex is '+sex1+'.' )
+
+
+});
+//var result = calculate() ;
+// document.getElementById("demo").innerHTML = result ; 
+
+</script>
+
+<form id = "form"method ="post" action ="newms.html" >
+<pre>
+
+Enter Age<input type = "text" name = "age" >
+Enter gender <input type ="text" name = "sex" >
+
+<button type="submit" > Submit </button >
+
+</pre>
+</form>
+
+
+
+
+<div id="log_wrapper_div" class="sg-10"> <br/><br/><div class="item_title">Log</div><textarea id="log" style= "width: 100%; height: 250px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; " ></textarea></div>
+            </div>
+			
+
+
+
+
+</body>
+
+</html>

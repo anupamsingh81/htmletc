@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html>
+       <head>
+    <title>Mean Calculator</title>
+	<script src="script/jstat.js"> </script>
+	
+	
+
+   
+     </head>
+     <body>
+    <h1>Mean Calculator</h1>
+	 <script type="text/javascript">
+
+        function computeBMI() {
+            // user inputs
+           //  var height =  document.getElementById("height").value.split("/n").map(Number);
+			
+			 var area1 = document.getElementById("group1");             
+    var lines1 = area1.value.replace(/\r\n/g,"\n").split("\n");
+	var array1 = lines1.map(Number);
+	// var mean = jStat.mean(array1);
+	
+	var area2 = document.getElementById("group2");             
+    var lines2 = area2.value.replace(/\r\n/g,"\n").split("\n");
+	var array2 = lines2.map(Number);
+	
+	
+	
+	function paired_t_test(x1, x2) {
+    var n1 = x1.length
+    var n2 = x2.length
+    mean1 = jStat.mean(x1)
+    mean2 = jStat.mean(x2)
+    var var1 = Math.pow(jStat.stdev(x1, true), 2)
+    var var2 = Math.pow(jStat.stdev(x2, true), 2)
+    var sd = Math.sqrt( ((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2))
+    var t = (mean1 - mean2) / (sd * Math.sqrt(1 / n1 + 1 / n2))
+    var p = jStat.ttest(t, n1 + n2 - 2 +1)
+    return [mean1 - mean2, t, p]
+}
+
+var result = paired_t_test(array1,array2);
+
+	
+	// http://stackoverflow.com/questions/4437916/how-to-convert-all-elements-in-an-array-to-integer-in-javascript
+            
+            //Display result of calculation
+            document.getElementById("output").innerText = result;
+			
+
+         
+        }
+    </script>
+	
+    <p>Enter Numbers in group 1: <textarea  id="group1"> </textarea></p>
+	<p>Enter Numbers in group 2: <textarea  id="group2"> </textarea></p>
+	
+    
+    <input type="submit" value="compute" onclick="computeBMI();">
+    <p>Your Mean is: <span id="output">?</span></p>
+
+    
+     </body>
+
+    </html>
+
+

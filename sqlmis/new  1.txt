@@ -1,0 +1,15 @@
+mysql_connect("localhost","root","654321");
+mysql_select_db("test1") or die("unable to connect database");
+$query = "insert into form (name,age,income) values('$name','$age','$income')";
+	f(isset($_POST['submit'])){
+	$name=$_POST['name'];
+	$age=$_POST['age'];
+	$income=$_POST['income'];
+	
+	echo "$name";
+	echo"$Age";
+	echo"$income";
+	
+	
+	insert into form (name,age,income) values('seema','24','27000')
+	

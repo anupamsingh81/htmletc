@@ -1,0 +1,338 @@
+<html>
+
+<head>
+<title> Test log </title>
+
+<script src ="script/jquery-3.1.0.min.js"> </script>
+
+</head>
+<body>
+
+<script>
+function write_log(s) {
+       $("#log").val($("#log").val() + s)
+      $("#log").scrollTop($("#log")[0].scrollHeight);
+    }
+	
+
+function computelog() {
+
+
+var PH_NORMAL = 7.4;
+var PH_NORMAL_DELTA = 0.01;  // Acceptable deviation from normal
+var PCO2_NORMAL = 40;
+var PCO2_NORMAL_DELTA = 2;
+var HCO3_NORMAL = 24;
+var HCO3_NORMAL_DELTA = 2;
+var ANION_GAP_NORMAL = 12;
+var ANION_GAP_NORMAL_DELTA = 2;
+var DELTA_DELTA_GAP_NORMAL_DELTA = 6;
+var ALBUMIN_NORMAL = 4.0;
+
+var ANION_GAP_ALBUMIN_CORRECTION = 2.5;
+
+var EXPECTED_DELTA_PH_PER_PCO2_ACUTE = -0.008;
+var EXPECTED_DELTA_PH_PER_PCO2_CHRONIC = -0.004;
+
+var EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_ACUTE = 0.1;
+var EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_CHRONIC = 0.4;
+var EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_ACUTE = 0.2;
+var EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_CHRONIC = 0.4;
+
+var EXPECTED_PCO2_HCO3_COMPENSATION_DIFF = 15;
+
+var summary = '';
+var msg = '';
+var gap = '';
+var logic = '';
+
+
+	write_log("\n") ;
+
+    var pH = parseFloat($('#pH').val());
+    var pCO2 = parseFloat($('#pCO2').val());
+
+    var na = parseFloat($('#na').val());
+    var cl = parseFloat($('#cl').val());
+    var hco3 = parseFloat($('#hco3').val());
+    var albumin = parseFloat($('#albumin').val());
+	
+	 var time = $('#time').val();
+	 if ( Math.abs(pH-PH_NORMAL) <= PH_NORMAL_DELTA )
+    {
+        write_log('pH within normal range of expected ('+ PH_NORMAL +'):');
+        write_log('No primary acid-base disorder, or a mixed disorder');
+    }
+    else if ( pH < PH_NORMAL )
+    {
+        write_log('Acidemia when pH ('+ pH +') less than expected ('+ PH_NORMAL +')' );
+        if ( pCO2 > PCO2_NORMAL )
+        {
+            analyzeRespiratoryAcidosis( pH, pCO2, na, cl, hco3, albumin );
+        }
+        else
+        {
+            analyzeMetabolicAcidosis( pH, pCO2, na, cl, hco3, albumin );
+        }
+    }
+    else // ( pH > PH_NORMAL )
+    {
+        write_log('Alkalemia when pH ('+ pH +') greater than expected: ('+ PH_NORMAL +')' );
+        if ( pCO2 < PCO2_NORMAL )
+        {
+            analyzeRespiratoryAlkalosis( pH, pCO2, na, cl, hco3, albumin );
+        }
+        else
+        {
+            analyzeMetabolicAlkalosis( pH, pCO2, na, cl, hco3, albumin );
+        }
+    }
+
+
+function analyzeRespiratoryAcidosis( pH, pCO2, na, cl, hco3, albumin )
+{
+    write_log('[Respiratory Acidosis] when pCO2 ('+ pCO2 +') > expected ('+ PCO2_NORMAL +')');
+    var pHexpected = PH_NORMAL;
+    var expectedHCO3 = HCO3_NORMAL;
+    if ( time == 'acute')
+    {
+        summary += 'Primary Respiratory Acidosis, Acute, with: ';
+        write_log('[Acute respiratory acidosis] =>');
+        write_log('Expect metabolic compensation when pH ('+ (EXPECTED_DELTA_PH_PER_PCO2_ACUTE*10) +') per +10 pCO2', 1);
+        write_log('Expect metabolic compensation when HCO3 (+'+ (EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_ACUTE*10) +') per +10 pCO2', 1);
+
+        pHexpected += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_PH_PER_PCO2_ACUTE;
+        expectedHCO3 += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_ACUTE;
+    }
+    else
+    {
+        summary += 'Primary Respiratory Acidosis, Chronic, with: ';
+        write_log('[Chronic respiratory acidosis] =>');
+        write_log('Expect metabolic compensation when pH ('+ (EXPECTED_DELTA_PH_PER_PCO2_CHRONIC*10) +') per +10 pCO2', 1);
+        write_log('Expect metabolic compensation when HCO3 (+'+ (EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_CHRONIC*10) +') per +10 pCO2', 1);
+
+        pHexpected += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_PH_PER_PCO2_CHRONIC;
+        expectedHCO3 += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_HCO3_PER_PCO2_ACIDOSIS_CHRONIC;
+    }
+
+    write_log('Expected pH ('+ pHexpected +' +/- '+ PH_NORMAL_DELTA +'), actual pH ('+ pH +') =>');
+    write_log('Expected HCO3 ('+expectedHCO3+'), actual HCO3 ('+ hco3 +') =>');
+    if ( Math.abs(pHexpected-pH) <= PH_NORMAL_DELTA )
+    {
+        summary += 'Appropriately Compensated by Metabolic Alkalosis';
+        write_log('Appropriately [compensated respiratory acidosis]', 1);
+    }
+    else if ( pH < pHexpected )
+    {
+        summary += 'Secondary Metabolic Acidosis';
+        write_log('[Secondary metabolic acidosis]', 1);
+        analyzeAnionGapAcidosis( pH, pCO2, na, cl, hco3, albumin );
+    }
+    else // ( pH > pHexpected )
+    {
+        summary += 'Secondary Metabolic Alkalosis';
+        write_log('[Secondary metabolic alkalosis]', 1);
+    }
+
+
+}
+
+function analyzeRespiratoryAlkalosis( pH, pCO2, na, cl, hco3, albumin )
+{
+    write_log('[Respiratory Alkalosis] when pCO2 ('+ pCO2 +') < expected ('+ PCO2_NORMAL +')');
+
+    var pHexpected = PH_NORMAL;
+    var expectedHCO3 = HCO3_NORMAL;
+    if (time == 'acute' )
+    {
+        summary += 'Primary Respiratory Alkalosis, Acute, with: ';
+        write_log('[Acute respiratory alkalosis] =>');
+        write_log('Expect metabolic compensation when pH ('+ (EXPECTED_DELTA_PH_PER_PCO2_ACUTE*10) +') per +10 pCO2', 1);
+        write_log('Expect metabolic compensation when HCO3 (-'+ (EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_ACUTE*10) +') per -10 pCO2', 1);
+
+        pHexpected += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_PH_PER_PCO2_ACUTE;
+        expectedHCO3 += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_ACUTE;
+    }
+    else
+    {
+        summary += 'Primary Respiratory Alkalosis, Chronic, with: ';
+        write_log('[Chronic respiratory alkalosis] =>');
+        write_log('Expect metabolic compensation when pH ('+ (EXPECTED_DELTA_PH_PER_PCO2_CHRONIC*10) +') per +10 pCO2', 1);
+        write_log('Expect metabolic compensation when HCO3 (-'+ (EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_CHRONIC*10) +') per -10 pCO2', 1);
+
+        pHexpected += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_PH_PER_PCO2_CHRONIC;
+        expectedHCO3 += (pCO2-PCO2_NORMAL) * EXPECTED_DELTA_HCO3_PER_PCO2_ALKALOSIS_CHRONIC;
+    }
+
+    write_log('Expected pH ('+ pHexpected +' +/- '+ PH_NORMAL_DELTA +'), actual pH ('+ pH +') =>');
+    write_log('Expected HCO3 ('+expectedHCO3+'), actual HCO3 ('+ hco3 +') =>');
+    if ( Math.abs(pHexpected-pH) <= PH_NORMAL_DELTA )
+    {
+        summary += 'Appropriately Compensated by Metabolic Acidosis';
+        write_log('Appropriately [compensated respiratory alkalosis]', 1);
+    }
+    else if ( pH < pHexpected )
+    {
+        summary += 'Secondary Metabolic Acidosis';
+        write_log('[Secondary metabolic acidosis]', 1);
+        analyzeAnionGapAcidosis( pH, pCO2, na, cl, hco3, albumin );
+    }
+    else // ( pH > pHexpected )
+    {
+        summary += 'Secondary Metabolic Alkalosis';
+        write_log('[Secondary metabolic alkalosis]', 1);
+    }
+
+
+}
+
+
+function analyzeMetabolicAcidosis( pH, pCO2, na, cl, hco3, albumin )
+{
+    summary += 'Primary Metabolic Acidosis, with: ';
+    write_log('[Metabolic Acidosis] when pCO2 ('+ pCO2 +') < expected ('+ PCO2_NORMAL +')');
+    write_log('Expect respiratory compensation when pCO2 = HCO3 +'+EXPECTED_PCO2_HCO3_COMPENSATION_DIFF, 1);
+
+    var pCO2expected = hco3 + EXPECTED_PCO2_HCO3_COMPENSATION_DIFF;
+    write_log('Expected pCO2 ('+ pCO2expected +' +/- '+ PCO2_NORMAL_DELTA +'), actual pCO2 ('+ pCO2 +') =>');
+    if ( Math.abs(pCO2expected-pCO2) <= PCO2_NORMAL_DELTA )
+    {
+        summary += 'Appropriately Compensated by Respiratory Alkalosis';
+        write_log('Appropriately [compensated metabolic acidosis]', 1);
+    }
+    else if ( pCO2 < pCO2expected )
+    {
+        summary += 'Secondary Respiratory Alkalosis';
+        write_log('[Secondary respiratory alkalosis]', 1);
+    }
+    else // ( pCO2 > pCO2expected )
+    {
+        summary += 'Secondary Respiratory Acidosis';
+        write_log('[Secondary respiratory acidosis]', 1);
+    }
+
+
+    analyzeAnionGapAcidosis( pH, pCO2, na, cl, hco3, albumin );
+}
+
+function analyzeMetabolicAlkalosis( pH, pCO2, na, cl, hco3, albumin )
+{
+    summary += 'Primary Metabolic Alkalosis, with: ';
+    write_log('[Metabolic Alkalosis] when pCO2 ('+ pCO2 +') > expected ('+ PCO2_NORMAL +')');
+    write_log('Expect respiratory compensation when pCO2 = HCO3 +'+EXPECTED_PCO2_HCO3_COMPENSATION_DIFF, 1);
+
+    var pCO2expected = hco3 + EXPECTED_PCO2_HCO3_COMPENSATION_DIFF;
+    write_log('Expected pCO2 ('+ pCO2expected +' +/- '+ PCO2_NORMAL_DELTA +'), actual pCO2 ('+ pCO2 +') =>');
+    if ( Math.abs(pCO2expected-pCO2) <= PCO2_NORMAL_DELTA )
+    {
+        summary += 'Appropriately Compensated by Respiratory Acidosis';
+        write_log('Appropriately [compensated metabolic alkalosis]', 1);
+    }
+    else if ( pCO2 < pCO2expected )
+    {
+        summary += 'Secondary Respiratory Alkalosis';
+        write_log('[Secondary respiratory alkalosis]', 1);
+    }
+    else // ( pCO2 > pCO2expected )
+    {
+        summary += 'Secondary Respiratory Acidosis';
+        write_log('[Secondary respiratory acidosis]', 1);
+    }
+
+
+}
+
+/**
+ * Further analysis for metabolic acidosis to assess anion gap or not
+ */
+function analyzeAnionGapAcidosis( pH, pCO2, na, cl, hco3, albumin )
+{
+    var anionGap = na-cl-hco3;
+    write_log('Anion Gap = Na - Cl - HCO3 = '+ na +' - '+ cl +' - '+ hco3 +' = '+ anionGap );
+
+    if ( albumin < ALBUMIN_NORMAL )
+    {
+        anionGap = anionGap + ANION_GAP_ALBUMIN_CORRECTION * (ALBUMIN_NORMAL - albumin);
+        write_log('Hypo-albuminemia (lack of natural serum anion): '+ albumin, 1 );
+        write_log('Corrected AG = AG + '+ANION_GAP_ALBUMIN_CORRECTION+'*('+ALBUMIN_NORMAL+' - albumin) = '+ anionGap, 1 );
+    }
+
+    write_log('Expected ('+ ANION_GAP_NORMAL +' +/- '+ ANION_GAP_NORMAL_DELTA +') vs. actual ('+ anionGap +')', 1 );
+
+    if ( Math.abs(anionGap-ANION_GAP_NORMAL) <= ANION_GAP_NORMAL_DELTA )
+    {
+        gap += 'This is a Non-Gap Metabolic Acidosis.';
+        write_log('[Non-gap metabolic acidosis]', 1 );
+    }
+    else if ( anionGap > ANION_GAP_NORMAL )
+    {
+        gap += 'This is an Anion Gap Metabolic Acidosis.';
+        write_log('[Anion gap metabolic acidosis]', 1 );
+
+        analyzeDeltaDeltaGap( pH, pCO2, na, cl, hco3, albumin, anionGap );
+    }
+    else // ( anionGap < ANION_GAP_NORMAL )
+    {
+        write_log('???Gap is too small.  Probably additional metabolic alkalosis???');
+    }
+
+
+}
+
+function analyzeDeltaDeltaGap(pH, pCO2, na, cl, hco3, albumin, anionGap )
+{
+    write_log('Delta-delta gap check');
+    write_log('Expect delta HCO3 -1 for every +1 delta anion gap', 1);
+    var deltaAnionGap = anionGap - ANION_GAP_NORMAL;
+    var expectedHCO3 = HCO3_NORMAL - deltaAnionGap;
+    write_log('Delta Anion Gap ('+ anionGap +' - '+ ANION_GAP_NORMAL +') = '+ deltaAnionGap, 1);
+    write_log('Expected HCO3 ('+HCO3_NORMAL+' - '+deltaAnionGap+') = ('+ expectedHCO3 +' +/- '+DELTA_DELTA_GAP_NORMAL_DELTA+') vs. actual ('+ hco3 +')', 1);
+
+    if ( Math.abs(hco3-expectedHCO3) <= DELTA_DELTA_GAP_NORMAL_DELTA )
+    {
+        write_log('[Pure anion gap metabolic acidosis]', 1 );
+    }
+    else if ( hco3 < expectedHCO3 )
+    {
+        summary += ' and Additional Non-Gap Metabolic Acidosis';
+        write_log('[Additional non-gap metabolic acidosis]', 1 );
+    }
+    else // ( hco3 > expectedHCO3 )
+    {
+        summary += ' and Additional Metabolic Alkalosis';
+        write_log('[Additional metabolic alkalosis]', 1 );
+    }
+
+
+}
+write_log("\n")
+//write_log("<b>"summary"</b>");
+write_log(summary);
+	}
+	 </script>
+	
+
+
+ <h1> ABG Calculator</h1>
+ <p>Enter pH: <input ="text"  id="pH"></p>
+ 
+ <p>Enter pCO2: <input ="text"  id="pCO2"></p>
+ <p>Enter Bicarbonate: <input ="text"  id="hco3"></p>
+ <p>Enter Sodium: <input ="text"  id="na"></p>
+ <p>Enter Chlorine: <input ="text"  id="cl"></p>
+ 
+ <p>Enter Albumin: <input ="text"  id="albumin"></p>
+ 
+ 
+ 
+	<p>Enter Time of illness : <input ="text"  id="time"></p>
+	<input type="submit" value="compute" onclick="computelog();">
+    
+	
+ 
+
+<div id="log_wrapper_div" class="sg-10"> <br/><br/><div class="item_title">Log</div><textarea id="log" style= "width: 100%; height: 250px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; " ></textarea></div>
+            </div>
+			
+			</body>
+			</html>

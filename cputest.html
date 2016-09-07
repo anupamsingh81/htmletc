@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+    <html>
+       <head>
+    <title>Mean Calculator</title>
+	
+	<script src="script/jquery-3.1.0.min.js"></script>
+<script src="script/ocpu.js"></script>
+	<script>
+
+$("#submitbutton").click(function()
+
+        {
+		ocpu.seturl("localhost:2933/ocpu/library/stats/R")
+            // user inputs
+           //  var height =  document.getElementById("height").value.split("/n").map(Number);
+			
+			 var area1 = document.getElementById("group1");             
+    var lines1 = area1.value.replace(/\r\n/g,"\n").split("\n");
+	var array1 = lines1.map(Number);
+	// var mean = jStat.mean(array1);
+	
+	var area2 = document.getElementById("group2");             
+    var lines2 = area2.value.replace(/\r\n/g,"\n").split("\n");
+	var array2 = lines2.map(Number);
+	
+	
+    
+    var req = ocpu.call("t.test",{
+        x : array1,
+        y : array2
+    }, function(session){
+      //retrieve session console (stdout) async
+      session.getConsole(function(outtxt){
+          $("code").text(outtxt);
+      });
+    });
+
+    //optional
+    req.fail(function(){
+        alert("R returned an error: " + req.responseText); 
+    });
+});
+
+
+	
+	// http://stackoverflow.com/questions/4437916/how-to-convert-all-elements-in-an-array-to-integer-in-javascript
+            
+            //Display result of calculation
+           
+			
+
+         
+       
+    </script>
+	
+	
+
+   
+     </head>
+     <body>
+    <h1>Mean Calculator</h1>
+	 
+    <p>Enter Numbers in group 1: <textarea  id="group1"> </textarea></p>
+	<p>Enter Numbers in group 2: <textarea  id="group2"> </textarea></p>
+	
+    
+    <button id="submitbutton">Run T-TEST</button> <br>
+
+     <pre><code></code></pre>
+
+    
+
+    
+     </body>
+
+    </html>
+

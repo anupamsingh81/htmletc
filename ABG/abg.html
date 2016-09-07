@@ -1,0 +1,69 @@
+<html>
+
+<head>
+<title> Test log </title>
+
+<script src ="script/jquery-3.1.0.min.js"> </script>
+
+</head>
+<body>
+
+<script>
+function write_log(s) {
+       $("#log").val($("#log").val() + s)
+      $("#log").scrollTop($("#log")[0].scrollHeight);
+    }
+	
+	 function computelog() {
+	write_log("\n") ;
+	 
+	 var n1 = parseInt($('#Number1').val());
+            var n2 = parseInt($('#Number2').val());
+            var r = n1 + n2;
+			// document.write(n1)
+			
+		//	var y = document.getElementById("Number1").value;
+       // var z = document.getElementById("Number2").value;
+       //  var r = +y + +z;
+        document.getElementById("output").innerHTML = r;
+		
+			
+		write_log("The first number is " + n1 + "\n") ;	
+		 write_log("The second number is " + n2 + "\n") ;
+		 write_log("The sum of numbers is " + r + ".") ;
+	// document.getElementById("output").innerText = r ;
+	 }
+	 </script>
+	
+
+
+ <h1>Sum Calculator</h1>
+ <p>Enter Number 1: <input ="text"  id="Number1"></p>
+ 
+	<p>Enter Number 2: <input ="text"  id="Number2"></p>
+	<input type="submit" value="compute" onclick="computelog();">
+    <p>Your Sum is: <span id="output">?</span></p>
+	
+ 
+
+<div id="log_wrapper_div" class="sg-10"> <br/><br/><div class="item_title">Log</div><textarea id="log" style= "width: 100%; height: 250px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; " ></textarea></div>
+            </div>
+			
+			</body>
+			</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

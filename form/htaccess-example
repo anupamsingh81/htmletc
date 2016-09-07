@@ -1,0 +1,8 @@
+#php_flag magic_quotes_gpc on
+# -------------------------------------------------------
+# The following are for uploading large files; feel free
+# to change values or comment out to suit your needs
+# -------------------------------------------------------
+php_value post_max_size 1000M
+php_value upload_max_filesize 1000M
+php_value max_execution_time 6000000

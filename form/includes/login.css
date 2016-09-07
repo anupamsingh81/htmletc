@@ -1,0 +1,88 @@
+/* ------------------------------------------- */
+/* --- Login/Install CSS styles                */
+/* ------------------------------------------- */
+* { margin: 0; padding: 0; }
+
+body {
+	background-color: #fff;
+	border-top-width: 30px;
+	border-top-style: solid;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	color: #333;
+}
+
+h1 {
+	color: #999;
+	padding-bottom: 15px;
+	display: block;
+	text-decoration:none;
+	font-size:20px;
+}
+h1 a {
+	color: #069;
+}
+
+form {
+	padding: 16px 16px 40px 16px;
+	font-weight: bold;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+form .forgetmenot { font-weight: normal; float: left; margin-bottom: 0;}
+
+form .submit { float: right; }
+
+form p { margin-bottom: 14px; }
+
+
+.login #back a:hover {
+	color: #fff;
+}
+
+.login form, h3.info-box-title {
+	background-color: #eaf3fa;
+	border:1px solid #999;
+}
+
+#login form .submit input {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+	padding: 3px 5px;
+	font-size: 13px;
+	border: 1px solid #aaa;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	cursor: default;
+	text-decoration: none;	
+}
+#login form .submit input {
+	background-color: #cee1ef !important;
+}
+
+#back  {
+	color: #ccc;
+	position: absolute;
+	top: 7px;
+	left: 15px;
+}
+#back  a {
+	color: #ccc;
+	text-decoration: none;
+}
+
+#login { 
+	width: 500px; 
+	margin: 2em auto; 
+	font-size:14px;
+}
+
+.input {
+	font-size: 20px;
+	width: 97%;
+	padding: 3px;
+	margin-right: 6px;
+}

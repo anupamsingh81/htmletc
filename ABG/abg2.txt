@@ -1,0 +1,254 @@
+function acidBase(form) {
+	var ph = form.ph.value
+	var pco2 = form.pco2.value
+	var hco3 = form.hco3.value
+	
+	var na = form.na.value
+	var bicarb = form.bicarb.value
+	var cl = form.cl.value
+
+	var whatText, expectedPco2, expectedText, phHigh, phLow, hco3High, hco3Low, ehco3, eph, eco2, agap
+	
+	if ((ph == "") || (ph <=0) || (isNaN(ph))) {
+		alert("Please enter the pH.");
+		form.ph.focus();
+		form.ph.select();
+		return false;
+	}
+	
+	if ((pco2 == "") || (pco2 <=0) || (isNaN(pco2))) {
+		alert("Please enter the pCO2.");
+		form.pco2.focus();
+		form.pco2.select();
+		return false;
+	}
+
+	if ((hco3 == "") || (hco3 <=0) || (isNaN(hco3))) {
+		alert("Please enter the HCO3.");
+		form.hco3.focus();
+		form.hco3.select();
+		return false;
+	}
+
+	eph = 6.1 + Math.log(hco3 / (pco2 * 0.0301)) / Math.log(10);
+	ehco3 = Math.pow(10,(ph - 6.1)) * 0.0301 * pco2;
+	eco2 = hco3 / (0.0301 * Math.pow(10,(ph - 6.1)));
+	
+	eph = roundNum(eph,2);
+	ehco3 = roundNum(ehco3,0);
+	eco2 = roundNum(eco2,0);
+	
+	
+//  Primary Metabolic Disorders
+	if ((ph < 7.36) && (pco2 <= 40)) {
+		whatText = "Primary metabolic acidosis"
+		expectedPco2 = 1.5 * hco3 + 8
+		agap = anionGap(na,bicarb,cl,1)
+		if (agap <= 16) {whatText += ", with normal anion gap"}
+			else {
+				whatText += ", with increased anion gap"
+				var agapChange = agap - 12
+				var bicarbChange = 24 - hco3
+				
+				if ((agapChange - bicarbChange) > 7) {whatText += ",\nmixed with a metabolic alkalosis"}
+				if ((agapChange - bicarbChange) < -7) {whatText += ",\nmixed with a normal-gap metabolic acidosis"}			
+			}
+	}
+	
+	if ((ph > 7.44) && (pco2 >= 40)) {
+		whatText = "Primary metabolic alkalosis"
+		expectedPco2 = 0.7 * hco3 + 21
+	}
+
+	expectedPco2 = roundNum(expectedPco2,0);
+	
+	if (pco2 > (expectedPco2 + 2)) {whatText += ",\nwith superimposed respiratory acidosis"}
+	if (pco2 < (expectedPco2 - 2)) {whatText += ",\nwith superimposed respiratory alkalosis"}
+	if ((pco2 <= (expectedPco2 + 2)) && (pco2 >= (expectedPco2 - 2))) {whatText += ",\nwith full respiratory compensation"}
+
+	expectedText = "(expected Pco2 = " + (expectedPco2 - 2) + " - " + (expectedPco2 + 2) + ")";
+	
+	
+//  Primary Respiratory Disorders
+	if ((ph < 7.4) && (pco2 > 44)) {
+		whatText = "primary respiratory acidosis";
+		phHigh = 7.4 - (0.003 * (pco2 - 40));
+		phLow = 7.4 - (0.008 * (pco2 - 40));
+		hco3High = 24 + (0.35 * (pco2 - 40));
+		hco3Low = 24 + (0.1 * (pco2 - 40));
+
+		phLow = roundNum(phLow,2);
+		phHigh = roundNum(phHigh,2);
+		hco3Low = roundNum(hco3Low,0);
+		hco3High = roundNum(hco3High,0);
+	
+		if (ph <= (phLow + 0.02)) {
+			whatText = "Acute (uncompensated) " + whatText;
+			if (hco3 < (hco3Low - 2)) {
+				whatText += ",\nwith metabolic acidosis"
+				agap = anionGap(na,bicarb,cl,1)
+				if (agap <= 16) {whatText += ", with normal anion gap"}
+					else {whatText += ", with increased anion gap"}
+			}
+		}
+
+		if (ph >= (phHigh - 0.02001)) {
+			whatText = "Chronic (compensated) " + whatText;
+			if (hco3 > (hco3High + 2)) {
+				whatText += ",\nwith metabolic alkalosis"
+			}
+		}
+		
+		if ((ph > (phLow + 0.02)) && (ph < (phHigh - 0.02001))) {
+			whatText = "(1) partially compensated primary respiratory acidosis, or\n" +
+			"(2) acute superimposed on chronic " + whatText + ", or\n" +
+			"(3) mixed acute respiratory acidosis with a small metabolic alkalosis"}
+	
+		expectedText = "pH < " + phLow + " and HCO3 < " + hco3Low + ", for acute (uncompensated)\n" +
+			"pH > " + phHigh + " and HCO3 > " + hco3High + ", for chronic (compensated)"
+	}
+	
+	if ((ph > 7.4) && (pco2 < 36)) {
+		whatText = "primary respiratory alkalosis"
+		phLow = 7.4 + (0.0017 * (40 - pco2));
+		phHigh = 7.4 + (0.008 * (40 - pco2));
+		hco3Low = 24 - (0.5 * (40 - pco2));
+		hco3High = 24 - (0.25 * (40 - pco2));
+
+		phLow = roundNum(phLow,2);
+		phHigh = roundNum(phHigh,2);
+		hco3Low = roundNum(hco3Low,0);
+		hco3High = roundNum(hco3High,0);
+
+		if (ph <= (phLow + 0.02)) {
+			whatText = "Chronic (compensated) " + whatText;
+			if (hco3 < (hco3Low - 2)) {
+				whatText += ",\nwith metabolic acidosis"
+				agap = anionGap(na,bicarb,cl,1)
+				if (agap <= 16) {whatText += ", with normal anion gap"}
+					else {whatText += ", with increased anion gap"}
+			}
+		}
+		
+		if (ph >= (phHigh - 0.02)) {
+			whatText = "Acute (uncompensated) " + whatText;
+			if (hco3 > (hco3High + 2)) {whatText += ",\nwith metabolic alkalosis"}
+		}
+
+		if ((ph > (phLow + 0.02)) && (ph < (phHigh - 0.02))) {
+			whatText = "(1) partially compensated primary respiratory alkalosis, or\n" +
+			"(2) acute superimposed on chronic " + whatText + ", or\n" +
+			"(3) mixed acute respiratory alkalosis with a small metabolic acidosis"}
+
+		expectedText = "pH > " + phHigh + " and HCO3 > " + hco3High + ", for acute (uncompensated)\n" +
+			"pH < " + phLow + " and HCO3 < " + hco3Low + ", for chronic (compensated)"
+	}
+	
+
+//  Mixed Acid-Base Disorders
+if ((whatText == "") || (whatText == null)) {
+	if ((ph >= 7.36) && (ph <= 7.44)) {
+		if ((pco2 > 40) && (hco3 > 26)) {
+			whatText = "Mixed respiratory acidosis / metabolic alkalosis"
+			expectedPco2 = 0.7 * hco3 + 21
+		} else
+		
+		if ((pco2 < 40) && (hco3 < 22)) {
+			whatText = "Mixed respiratory alkalosis / metabolic acidosis"
+			expectedPco2 = 1.5 * hco3 + 8
+			agap = anionGap(na,bicarb,cl,1)
+			if (agap <= 16) {whatText += ", with normal anion gap"}
+				else {whatText += ", with increased anion gap"}
+		} else
+		
+		{	agap = anionGap(na,bicarb,cl,0)
+			if (agap > 16) {whatText = "Mixed metabolic alkalosis / metabolic acidosis, with increased anion gap"}
+		}		
+		
+		expectedPco2 = roundNum(expectedPco2,0);
+		expectedText = "(expected Pco2 = " + (expectedPco2 - 2) + " - " + (expectedPco2 + 2) + ")";
+	}
+}
+
+//  Check for Elevated Anion Gap Acidosis
+	if ((agap == "") || (agap == null)) {
+		agap = anionGap(na,bicarb,cl,0)
+		if (agap > 16) {
+			whatText += ",\nwith metabolic acidosis, with increased anion gap"
+		}
+	}
+
+
+//  Normal ABG
+	if ((whatText == "") || (whatText == null)) {
+		whatText = "Normal ABG";
+		expectedText = " "
+	}
+	
+	expectedText2 = "expected pH = " + eph + "\nexpected CO2 = " + eco2 + "\nexpected HCO3- = " + ehco3
+	form.interp.value = whatText + "\n\n" + expectedText + "\n\n" + expectedText2;
+	return true;
+}
+
+
+function anionGap(na,bicarb,cl,metAcid) {
+	var addText
+	var isAgap = document.acids.agap.value
+	
+	if (metAcid == 1) {addText = "METABOLIC ACIDOSIS\n"} else {addText = ""}
+	if ((isAgap != "") && (isAgap != null) && (!isNaN(isAgap))) {
+		if ((na=="") || (na==null) || (bicarb=="") || (bicarb==null) || (cl=="") || (cl==null)) {	return isAgap}
+	}
+	if ((na == "") || (na == null) || (na <=0) || (isNaN(na))) {
+		if (metAcid == 0) {return true} else {
+			alert(addText + "Please enter a sodium value.");
+			document.acids.na.focus();
+			document.acids.na.select();
+			return false;
+		}
+	}
+	
+	if ((bicarb == "") || (bicarb == null) || (bicarb <=0) || (isNaN(bicarb))) {
+		if (metAcid == 0) {return true} else {
+			alert(addText + "Please enter a bicarbonate value.");
+			document.acids.bicarb.focus();
+			document.acids.bicarb.select();
+			return false;
+		}
+	}
+
+	if ((cl == "") || (cl == null) || (cl <=0) || (isNaN(cl))) {
+		if (metAcid == 0) {return true} else {
+			alert(addText + "Please enter a chloride value.");
+			document.acids.cl.focus();
+			document.acids.cl.select();
+			return false;
+		}
+	}
+	
+	var agap = na - bicarb - cl;
+	document.acids.agap.value = agap;
+	return agap;
+}
+
+
+function changeABG(bicarb) {
+	var ABGbicarb = document.acids.hco3.value
+	if ((ABGbicarb == "") || (ABGbicarb == null)) {document.acids.hco3.value = bicarb}
+	return true
+}
+
+
+function changeBicarb(bicarb) {
+	var ChemBicarb = document.acids.bicarb.value
+	if ((ChemBicarb == "") || (ChemBicarb == null)) {document.acids.bicarb.value = bicarb}
+	return true
+}
+
+
+function roundNum(thisNum,dec) {
+	thisNum = thisNum * Math.pow(10,dec)
+	thisNum = Math.round(thisNum)
+	thisNum = thisNum / Math.pow(10,dec)
+	return thisNum
+}

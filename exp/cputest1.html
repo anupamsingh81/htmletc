@@ -1,0 +1,88 @@
+<html>
+<head>
+
+
+<title>Mean Calculator</title>
+	
+	<script src ="script/jquery-3.1.0.min.js"> </script>
+<script src ="script/ocpu.js"> </script>
+
+	
+	<script>
+//set CORS to call "stocks" package on public server
+ocpu.seturl("http://localhost:2933/ocpu/library/stats/R")
+
+
+
+//some example data
+//to run with different data, edit and press Run at the top of the page
+var x = [1,2,3,4,5,6,7,8,9,10];
+var y = [7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+//call R function: stats::var(x=data)
+$("#submitbutton").click(function(){
+	
+	var x = [1,2,3,4,5,6,7,8,9,10];
+var y = [7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+	
+	alert("R returned an error: " + x); 
+    alert("R returned an error: " + y); 
+   /* var req = ocpu.call("t.test",{
+        x : x,
+        y : y
+    }, function(session){
+      //retrieve session console (stdout) async
+      session.getConsole(function(outtxt){
+          $("code").text(outtxt);
+      });
+    });
+
+    //optional
+    req.fail(function(){
+        alert("R returned an error: " + req.responseText); 
+    });   */
+	
+	
+});
+
+
+</script>
+	
+	
+	<style type="text/css">
+pre {
+    position: relative;
+    height: 50px;
+}
+</style>
+
+</head>
+<body>
+
+
+
+
+<button id="submitbutton">Run T-TEST</button> <br>
+
+<pre><code></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+
+</html>
+

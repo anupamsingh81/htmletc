@@ -1,0 +1,10 @@
+LABEL="Windows8_OS" UUID="60BE8A1DBE89EC3A" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="313ee629-e9c9-4f53-80a2-7aa2cc15bd83"
+/dev/sda6: UUID="C47AF7427AF72FB2" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="4fe334e2-de7b-4f44-8543-b615b577b1a1"
+/dev/sda7: UUID="10AC0F45AC0F24B6" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="9c1f6960-3534-4bd5-85b5-184497bcdd47"
+/dev/sda8: UUID="FE1416D81416942D" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="a220c1f2-917d-4945-acf8-5ee66e0de40b"
+
+
+UUID=60BE8A1DBE89EC3A /media/CDrive  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
+UUID=C47AF7427AF72FB2 /media/DDrive  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
+UUID=10AC0F45AC0F24B6 /media/EDrive  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
+UUID=FE1416D81416942D /media/FDrive  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0

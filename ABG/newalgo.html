@@ -1,0 +1,84 @@
+<head>
+<title> Newalgo </title>
+
+<script src ="script/jquery-3.1.0.min.js"> </script>
+
+</head>
+<body>
+
+<script>
+function write_log(s) {
+       $("#log").val($("#log").val() + s)
+      $("#log").scrollTop($("#log")[0].scrollHeight);
+    }
+	
+$(".reset").bind("click", function() {
+  $("input[type=text], textarea").val("");
+});
+
+function resetlog(){
+$('#age').val('');
+$('#sex').val('');
+$('#log').val('');
+$('#test').val('Dumb');
+
+
+
+}
+
+function computelog() {
+
+var age = parseFloat($('#age').val());
+var sex = $('#sex').val();
+var test = $('#test').val();
+// http://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery?rq=1
+
+var myRadio = $('input[name=test]');
+var intel = myRadio.filter(':checked').val();
+
+
+var person = ""
+
+if (age<40 && sex =='male' && intel =='Dumb' ){
+person = "young Dumb male"}
+else if (age >40 && sex =='male' && intel =='Smart'){
+person = "old smart male"}
+else if (age <40 && sex =='male'&& intel =='Smart' ){
+person = "young smart male"}
+else if (age <40 && sex =='female'){
+person = "young female"}
+else ( person = "old female")
+ write_log('Age is:'+age+ 'Sex is:'+sex+ 'Intelligence is:'+intel+'The person is' +person + "\n");
+write_log('The person is ' +intel+'.')
+
+}
+</script>
+
+
+
+<h1> Algo  Calculator</h1>
+ <p>Enter Age: <input ="text"  id="age"></p>
+ 
+ <p>Enter gender: <input ="text"  id="sex"></p>
+ 
+ 
+<p>
+Dumb<input type='radio' name='test' value='Dumb' checked>
+Smart<input type='radio' name='test' value='Smart'>
+
+</p>
+
+ 
+ 
+	
+	<input type="submit" value="compute" onclick="computelog();">
+	<input type="submit" value="reset" onclick="resetlog();" >
+    
+	
+ 
+
+<div id="log_wrapper_div" class="sg-10"> <br/><br/><div class="item_title">Log</div><textarea id="log" style= "width: 100%; height: 250px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; " ></textarea></div>
+            </div>
+			
+			</body>
+			</html>

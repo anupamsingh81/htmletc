@@ -1,0 +1,57 @@
+<html>
+<head>
+<title> Mitral stenosis algorithm </title>
+<script>
+
+var age = document.getElementById("age").value() ;
+var sex = document.getElementById("sex").value() 
+
+function calculate(){
+var age = document.getElementById("age").value() ;
+var sex = document.getElementById("sex").value() ;
+var person = "";
+if ( age == "old" && sex == "male" ) {person = "old man"};
+else if ( age == "young" && sex == "male" ) {person = "young man"};
+else if ( age == "young" && sex == "female" ) {person = "young chick"};
+else  ( age == "old" && sex == "male" ) {person = "old lady"};
+
+return person ;
+
+}
+var result = calculate() ;
+document.getElementById("demo").innerHTML = result ; 
+
+</script>
+</head>
+<body>
+
+<form>
+<pre>
+
+<b> Enter Age : </b>
+40 or greater <input type="radio" name="age" value="old">
+less than 40 <input type="radio" name="age" value="young"> 
+<br>
+
+<b> Enter Sex : </b>
+male<input type="radio" name="sex" value="male">
+female<input type="radio" name="sex" value="female">
+
+
+<input type="submit" value="calculate" onclick ="javascript:calculate()" >
+
+
+</pre>
+</form>
+
+
+
+
+<p> The person is <span id = "demo"> ? </span> </p>
+
+
+
+
+</body>
+
+</html>

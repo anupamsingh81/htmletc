@@ -1,0 +1,98 @@
+<form method="post" name="acids">
+<table border=0 cellspacing=0 cellpadding=3>
+	<tr bgcolor="#99CCFF">
+		<th colspan=3 align=left bgcolor="#3399FF">
+  	   		<font color="#FFFFFF" face="Arial">
+			Arterial Blood Gas (ABG) values:</font>
+		</th>
+		
+		<th colspan=2 align=left bgcolor="#9999FF">
+    	   <font color="#FFFFFF" face="Arial">
+			Anion Gap values:</font>
+		</th>	
+	</tr>
+
+	<tr bgcolor="#99CCFF">
+		<th align=right>pH :	</th>
+		<td align=left>
+			<input type=text size=4 maxlength=4 name="ph">	
+		</td>
+		<td align=left>
+			<font size="-1">7.36 - 7.44	</font>
+		</td>
+		
+		<th align=right bgcolor="#CCCCFF">Sodium (Na<sup>+</sup>):</th>
+		<td align=left bgcolor="#CCCCFF">
+			<input type=text size=3 maxlength=3 name="na"> mEq/L
+		</td>
+	</tr>
+	
+	<tr bgcolor="#99CCFF">
+		<th align=right>
+			P<sub>CO<sub>2</sub></sub> :
+		</th>
+		<td align=left>
+			<input type=text size=3 maxlength=3 name="pco2"> mm Hg
+		</td>
+		<td align=left>
+			<font size="-1">36 - 44 mm Hg</font>
+		</td>
+		
+		<th align=right bgcolor="#CCCCFF">Bicarbonate (HCO<sub>3</sub><sup>-</sup>):</th>
+		<td align=left bgcolor="#CCCCFF">
+			<input type=text size=3 maxlength=3 name="bicarb" onBlur="changeABG(bicarb.value);"> mEq/L
+		</td>
+	</tr>
+
+	<tr bgcolor="#99CCFF">
+		<th align=right>
+			HCO<sub>3</sub><sup>-</sup> :
+		</th>
+		<td align=left>
+			<input type=text size=3 maxlength=3 name="hco3" onBlur="changeBicarb(hco3.value);"> mEq/L
+		</td>
+		<td align=left>
+			<font size="-1">22 - 26 mEq/L</font>
+		</td>
+		
+		<th align=right bgcolor="#CCCCFF">Chloride (Cl<sup>-</sup>):</th>
+		<td align=left bgcolor="#CCCCFF">
+			<input type=text size=3 maxlength=3 name="cl"> mEq/L
+		</td>
+	</tr>
+
+	<tr bgcolor="#99CCFF">
+		<td colspan=3 align=center>
+			<input type="button" value="Calculate" onClick="acidBase(this.form)">
+			<input type="reset">
+		</td>
+		
+		<th align=right bgcolor="#CCCCFF">Albumin :</th>
+		<td align=left bgcolor="#CCCCFF">
+			<input type=text size=3 maxlength=3 name="albumin"> g/dL
+		</td>
+	</tr>
+
+	<tr bgcolor="#cccccc">	
+		<th align=left colspan=3>
+			Acid-Base Interpretation:
+		</th>
+
+		<th align=right>Anion Gap :</th>
+		<td align=left>
+			<input type=text size=3 maxlength=3 name="agap"> mEq/L
+			<font size="-1">&nbsp;&nbsp; Normal : &lt; 16</font>
+		</td>
+	</tr>
+
+	<tr bgcolor="#cccccc">
+		<th colspan=5>
+			<center>
+      		<textarea name="interp" wrap="soft" rows="7" cols="60"></textarea>
+      		</center>
+			<br>&nbsp;
+		</th>
+	</tr>
+</table>
+</form>
+</center>

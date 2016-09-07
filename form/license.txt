@@ -1,0 +1,8 @@
+phpAddEdit - php Form Generator - http://www.phpaddedit.com
+Copyright © Jeff M. Blum
+
+Licensed under the GNU Lesser General Public License 
+Version 3 or later (the "LGPL")
+http://www.gnu.org/licenses/lgpl.html
+(See include files named COPYING and COPYING.LESSER)
+

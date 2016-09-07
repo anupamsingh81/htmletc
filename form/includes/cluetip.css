@@ -1,0 +1,102 @@
+/* global */
+.hide{display:none}
+
+#cluetip-waitimage {
+      width: 43px;
+      height: 11px;
+      position: absolute;
+      background-image: url('/images/ajax-loader.gif');
+    }
+#cluetip-close img {
+  border: 0;
+}
+#cluetip-title #cluetip-close {
+  float: right;
+  position: relative;
+}
+#cluetip div.bshadow {width: 100% !important;  }
+#cluetip a {cursor: pointer;}
+
+/***************************************
+   =cluetipClass: 'default' 
+-------------------------------------- */
+.cluetip-default { }
+
+.cluetip-default #cluetip-outer {
+  position: relative;
+  background-color: #fff;
+}
+.cluetip-default h3#cluetip-title {
+  margin: 0;
+  padding: .5em;
+  font-weight: bold;
+background-color: #555;
+xbackground-image:url('http://c.fsdn.com/sf/images//phoneix/grad_white_50.png');
+background-image:url('/images/clear.gif');
+background-position:center top;
+background-repeat:repeat-x;
+  color: #fff;
+}
+.cluetip-default #cluetip-inner {
+  padding: .5em;
+  border-top: none;
+	border: 1px solid #555;
+}
+
+.cluetip-default div#cluetip-close { 
+  text-align: right;
+  margin: 0 5px 5px;
+	font-size: 85%;
+}
+.cluetip-default div#cluetip-close a { 
+  color: #ddd;
+}
+.cluetip-default div#cluetip-close a:hover {
+	color: #fff;
+}
+
+/***************************************
+   =cluetipClass: 'jtip'
+-------------------------------------- */
+.cluetip-jtip {
+	width: 225px;
+}
+.cluetip-jtip {
+  background-color: #fff;
+}
+
+.cluetip-jtip #cluetip-outer {
+  border: 2px solid #9cf;
+  position: relative;
+  background-color: #fff;
+}
+
+.cluetip-jtip h3#cluetip-title {
+  margin: 0 0 5px;
+  padding: 2px 5px 2px 25px;
+  font-weight: bold;
+  background: #def url("../images/information.png") no-repeat 5px 2px;
+  color: #369;
+}
+
+.cluetip-jtip #cluetip-inner {
+  padding: 0 5px 5px;
+  display: inline-block;
+}
+.cluetip-jtip div#cluetip-close { 
+  background:url(../images/cross.png) no-repeat 0 2px;
+  text-align: right;
+  margin: 0 5px 5px;
+  padding: 0 2px 0 20px;
+}
+
+.tip {
+  color: #369; 
+  padding: 0px 2px; 
+  font-weight: bold; 
+  border: 1px solid #9cf; 
+  background: #def;
+  margin:0 5px;
+}
+#cluetip li, #cluetip {text-align: left}
+#cluetip .delete {color: #777;}

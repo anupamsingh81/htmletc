@@ -1,0 +1,191 @@
+/* Form Element definitions */
+.formclass { 
+	font: 12px Arial, Helvetica, sans-serif; 
+	color: inherit; 
+}
+.form-title	{ 
+	font-weight: bold; 
+	background: #006699; 
+	color: #ffffff; 
+	letter-spacing: 1px; 
+	border: 1px solid #000000; 
+	text-align: center; 
+	margin: 2px; 
+}
+.form-text { 
+	font-weight: bold; 
+	margin: 0px; 
+	padding: 0px; 
+}
+.form-required-text { 
+	font-weight: bold; 
+	color: red; 
+	margin: 0px; 
+	padding: 0px; 
+}
+.form-table	{ 
+	width:100%;
+	border: 1px solid #999999; 
+	color: inherit; 
+	background: #f9f9f9; 
+	margin: 4px; 
+	padding: 0px 
+}
+.form-submit {
+	background: url(/addedit/images/fade-butt.png);
+	border: 3px double #999;
+	border-left-color: #ccc;
+	border-top-color: #ccc;
+	color: #333;
+	padding: 0.25em;
+	margin: 10px 0px 10px 0px;
+}
+
+OL.upperroman { 
+	list-style-type: upper-roman; 
+}
+OL.lowerroman { 
+	list-style-type: lower-roman; 
+}
+OL.upperalpha { 
+	list-style-type: upper-alpha; 
+}
+OL.loweralpha { 
+	list-style-type: lower-alpha; 
+}
+UL.circle { 
+	list-style-type: circle; 
+}
+UL, UL.disc { 
+	list-style-type: disc; 
+}
+UL.square { 
+	list-style-type: square; 
+}
+
+img { border: 0; }
+
+.section1class { width:100%; }
+.section1titleclass	{ 
+	border-top: 1px solid #b2b2b2; 
+	border-bottom: 2px solid #69c; 
+	color: #333; 
+	font: normal 22px serif; 
+	margin: 5px 0px; 
+	background: #bcd; 
+	padding: 2px 5px; 
+}
+.section2class { width:100%; }
+.section2titleclass	{ 
+	border-top: 1px solid #b2b2b2; 
+	border-bottom: 2px solid #69c; 
+	color: #333; 
+	font: normal 22px serif; 
+	margin: 5px 5px; 
+	background: #bcd; 
+	padding: 2px; 
+}
+.section3class		{ width:100%; }
+.section3titleclass	{ 
+	border-top: 1px solid #b2b2b2; 
+	border-bottom: 2px solid #69c; 
+	color: #333; 
+	font: normal 22px serif; 
+	margin: 5px 5px; 
+	background: #bcd; 
+	padding: 2px; 
+}
+.section4class		{ width:100%; }
+.section4titleclass	{ 
+	border-top: 1px solid #b2b2b2; 
+	border-bottom: 2px solid #69c; 
+	color: #333; 
+	font: normal 22px serif; 
+	margin: 5px 5px; 
+	background: #bcd; 
+	padding: 2px; 
+}
+
+fieldset {
+	border: 2px solid #ddd;
+	-moz-border-radius: 5px;
+	background: #f9f9f9;
+	padding: 4px 6px 4px 6px;
+	position:relative;
+	float:left;
+}
+
+fieldset legend {
+	padding: .1em .3em;
+}
+
+input:focus, textarea:focus, label:focus {
+	background: #fff;
+	border: 1px solid #686868;
+}
+
+textarea, input, select {
+	background: #ddd;
+	border: 1px solid #b2b2b2;
+	color: #000;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	margin: 1px;
+}
+.text-noedit {
+	background:#eee;
+	color:#999;
+}
+
+.warning {
+	color:red;
+	font-weight:bold;
+}
+
+.working {
+	color:red;
+	background: url('../images/working.gif') 50% 50% no-repeat;
+}
+
+.file-upload-ajax-iframe {
+	width:100%; 
+	height:10px; 
+	display:none; 
+	overflow:auto;
+}
+.file-upload {
+}
+.file-upload-left {
+	float:left;
+}
+.file-upload-right a {
+	float:left;
+	border:0;
+	padding:5px;
+}
+.file-upload-iframe-container {
+}
+.file-upload-iframe {
+	border:0; 
+	margin-top:5px;
+	height: 80px;
+}
+.file-upload-status {
+	color:#999; 
+	border:1px dotted #999; 
+	padding:2px 5px 2px 5px; 
+	width:100%;
+}
+
+.humanverify-desc {
+	color:green;
+	padding:0 0 0 10px;
+}
+.humanverify {
+	color:red;
+	padding:0 0 0 10px;
+}
+
+.other {
+	background:#ccc;
+	color:green;
+}

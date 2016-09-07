@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>HTML Tutorial</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta charset="windows-1252">
+<script>
+
+$(document).ready(function(){
+    var a = parseint($("#a").val());
+    var b = parseint($("#b").val());   
+    $("#submit").on("click", function(){
+        var sum = a + b;
+        alert(sum);         
+    })
+})
+</script>
+</head>
+<body>
+   <input type="text" id="a" name="option"> 
+   <input type="text" id="b" name="task"> 
+<input id="submit" type="button" value="press me">
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+/* --------------------------------------------------- */
+/* Design / appearance styles...
+/* --------------------------------------------------- */
+body {
+  background: #fff;
+  padding:0;
+  color:#000;
+  font:x-small Verdana, sans-serif;
+  voice-family: "\"}\""; voice-family:inherit;
+  font-size:small;
+} html>xbody { font-size:small; }
+
+code, .code, .Code {
+	background-color: #EFF3F8;
+	line-height: 1.5em;
+}
+code.block {
+	display:block;
+	text-align: left;
+	padding: 0 5px 0 5px;
+	border: 1px solid #ace;
+	text-align: left;
+	overflow: auto;
+}
+
+h1 { 
+	font-size:25px;
+	margin-top: -10px;
+	margin-bottom: 12px;
+}
+h1.content { padding:0; margin:0; color: red }
+h2, h3 {
+	margin-bottom:0;
+}
+
+hr { height: 1px; border: solid #D1D7DC 0px; border-top-width: 1px }
+
+img { 
+	padding:0; 
+	border:0; 
+	vertical-align:middle; 
+}
+
+pre {
+	background: #EEEEEE;
+	text-align: left;
+	margin: 0px;
+	padding: 2px;
+	border: 1px solid #ace;
+	text-align: left;
+	overflow: auto;
+}
+
+/* --------------------------------------------------- */
+/* List item-related...
+/* --------------------------------------------------- */
+ul { list-style-position: outside; margin: 5px 0 5px 0px; padding-left: 30px; list-style: square; vertical-align: middle; }
+li { margin: 0px; padding: 0px; }
+
+OL.upperroman { list-style-type: upper-roman }
+OL.lowerroman { list-style-type: lower-roman }
+OL.upperalpha { list-style-type: upper-alpha }
+OL.loweralpha { list-style-type: lower-alpha }
+OL.resource-results { padding:0; margin:0px; margin-left:0px; }
+UL.circle { list-style-type: circle }
+UL.disc { list-style-type: disc }
+UL.square { list-style-type: square }
+UL.resource { margin-left:-10px; }
+

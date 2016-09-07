@@ -1,0 +1,68 @@
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "INSERT INTO MyGuests (firstname, lastname, email)
+VALUES ('John', 'Doe', 'john@example.com')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+
+$con = mysqli_connect("localhost", "root", "") or die("Connection Problem" . mysqli_errno($con));
+$database = mysqli_select_db($con, "school") or die("SQL Problem" . mysqli_error($con));
+
+<?php
+/* Attempt MySQL server connection. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+$link = mysqli_connect("localhost", "root", "", "school");
+ 
+// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+ 
+// Attempt select query execution
+$sql = "SELECT * FROM form";
+if($result = mysqli_query($link, $sql)){
+    if(mysqli_num_rows($result) > 0){
+        echo "<table>";
+            echo "<tr>";
+                echo "<th>Serial no. </th>";
+                echo "<th>Name</th>";
+                echo "<th>Age</th>";
+                echo "<th>Income</th>";
+            echo "</tr>";
+        while($row = mysqli_fetch_array($result)){
+            echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['name'] . "</td>";
+                echo "<td>" . $row['age'] . "</td>";
+                echo "<td>" . $row['income'] . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+        // Close result set
+        mysqli_free_result($result);
+    } else{
+        echo "No records matching your query were found.";
+    }
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+}
+ 
+// Close connection
+mysqli_close($link);
+?>
+
+
+$id = $row['id'];
+$name = $row['name'];
+$age = $row['age'];
+$income = $row['income'];

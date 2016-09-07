@@ -1,0 +1,22 @@
+*****************************
+*** phpAddEdit To Do List ***
+*****************************
+
+--- added id tags for each form field, same as the field name (addedit-form-fields.php)
+--- Right now if you are editing a form there is code in the addedit-render.php file to loop through any 
+	specified CSS files and include them. These won't be included in your <head></head> area though so 
+	technically it violates W3C standards. It works fine but to get true HTML code compliance I need to 
+	think of a better way to fix this or maybe just make it the responsibility of users to include their 
+	CSS files? 
+--- Skip fields: currently, if you want to skip a field you have to use the addedit-customize.php file to 
+	specify it; I should add options in a form creation screen (step) to specify fields to skip for adding
+	or editing scenarios.
+--- Right now the password form field requires a confirmation; the script is setup to make that optional 
+	via a variable called $password_confirm, but I don't offer that as an option to see in the steps proces;
+	maybe I should add it? 
+--- add a selectbox_other field that isn't AJAX enabled (like originally had); add ability to limit the # 
+	of items that can be added in an AJAX selectbox_other box and/or add a captcha feature so bots can't submit
+--- I have come across occasional problems with PHP differentiating between a value of zero (0) and boolean 
+	false; it may crop up again for cases I haven't yet tested so need to keep that in mind...
+--- allow options for specifying different emails for submission and editing
+--- add AJAX auto suggestion (ref: http://www.dynamicajax.com/fr/AJAX_Suggest_Tutorial-271_290_312.html) 

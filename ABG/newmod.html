@@ -1,0 +1,87 @@
+<html>
+<head>
+<title> Experiment </title>
+
+
+<script type="text/javascript" src= "script/jquery-3.1.0.min.js"></script>
+
+</head>
+<body>
+<script type="text/javascript">
+    $(function () {
+        $("input[name='chkPassPort']").click(function () {
+            if ($("#chkYes").is(":checked")) {
+                $("#dvPassport").show();
+            } else {
+                $("#dvPassport1").show();
+            }
+        });
+		
+		
+		$("input[name='education']").click(function () {
+            if ($("#literate").is(":checked")) {
+                $("#dvPassport2").show();
+            } else {
+                $("#dvPassport2").hide();
+            }
+        });
+    });
+</script>
+<span>Do you have Passport?</span>
+<label for="chkYes">
+    <input type="radio" id="chkYes" name="chkPassPort" />
+    Yes
+</label>
+<label for="chkNo">
+    <input type="radio" id="chkNo" name="chkPassPort" />
+    No
+</label>
+<hr />
+<div id="dvPassport" style="display: none">
+   <label for="India">
+    <input type="radio" id="India" name="country" />
+    Indian
+</label>
+<label for="Other">
+    <input type="radio" id="Other" name="country" />
+    Other
+</label>
+</div>
+
+<div id="dvPassport" style="display: none">
+   <label for="India">
+    <input type="radio" id="India" name="country" />
+    Indian
+</label>
+<label for="Other">
+    <input type="radio" id="Other" name="country" />
+    Other
+</label>
+</div>
+
+<div id="dvPassport1" style="display: none">
+Education :
+   <label for="literate">
+    <input type="radio" id="literate" name="education" />
+    Literate
+</label>
+<label for="illiterate">
+    <input type="radio" id="illiterate" name="education" />
+    Illiterate
+</label>
+<hr />
+</div>
+
+<div id="dvPassport2" style="display: none">
+   <label for="rich">
+    <input type="radio" id="rich" name="money" />
+    Rich
+</label>
+<label for="poor">
+    <input type="radio" id="poor" name="money" />
+    Poor
+</label>
+</div>
+
+</body>
+</html>
